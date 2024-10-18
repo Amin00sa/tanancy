@@ -1,0 +1,34 @@
+created:
+    - database/factories/BankFactory.php
+    - database/factories/SupplierFactory.php
+    - database/factories/MarcheFactory.php
+    - database/factories/PurchaseFactory.php
+    - database/factories/ProductFactory.php
+    - database/factories/PaymentFactory.php
+    - database/migrations/2023_10_23_225729_create_banks_table.php
+    - database/migrations/2023_10_23_225730_create_suppliers_table.php
+    - database/migrations/2023_10_23_225731_create_marches_table.php
+    - database/migrations/2023_10_23_225732_create_purchases_table.php
+    - database/migrations/2023_10_23_225733_create_products_table.php
+    - database/migrations/2023_10_23_225734_create_payments_table.php
+    - app/Models/Bank.php
+    - app/Models/Supplier.php
+    - app/Models/Marche.php
+    - app/Models/Purchase.php
+    - app/Models/Product.php
+    - app/Models/Payment.php
+    - database/seeders/BankSeeder.php
+    - database/seeders/SupplierSeeder.php
+    - database/seeders/MarcheSeeder.php
+    - database/seeders/PurchaseSeeder.php
+    - database/seeders/ProductSeeder.php
+    - database/seeders/PaymentSeeder.php
+models:
+    Tenant: { id: string, data: 'json nullable' }
+    User: {  }
+    Bank: { code: string, name: string, rib: string, relationships: { hasMany: Purchase } }
+    Supplier: { name: string, telephone: 'string nullable', adresse: 'string nullable', bank_code: string, bank_name: string, bank_rib: string, relationships: { hasMany: Purchase } }
+    Marche: { name: string, maitre_ouvrage: string, ville: 'string nullable', montant: 'decimal:20,2', date_service: date, relationships: { hasMany: Purchase } }
+    Purchase: { bank_id: 'foreign:banks.id', supplier_id: 'foreign:suppliers.id', marche_id: 'foreign:marches.id', total: 'decimal:20,2', relationships: { hasMany: Product, hasOne: Payment } }
+    Product: { purchase_id: 'foreign:purchases.id', designation: string, quantity: integer, priceperunity: 'decimal:20,2', subtotal: 'decimal:20,2' }
+    Payment: { numero: string, purchase_id: 'foreign:purchases.id', echecance_date: 'date nullable', type: 'enum:espece,cheque,virement,versement,effet', status: 'enum:paid,pending', proof_file: 'text nullable' }
