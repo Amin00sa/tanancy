@@ -1,12 +1,12 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use App\Models\Tenant;
-use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
 use Inertia\Inertia;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -33,7 +33,7 @@ Route::get('/', function (Request $request) {
     if (isset($parsedUrl['host'])) {
         // The central domain is in $parsedUrl['host']
         $centralDomain = $parsedUrl['host'];
-        if (substr($centralDomain, 0, 4) === 'www.') {
+        if (str_starts_with($centralDomain, 'www.')) {
             // Remove 'www.' prefix
             $centralDomain = substr($centralDomain, 4);
         }
@@ -42,7 +42,48 @@ Route::get('/', function (Request $request) {
         $centralDomain = 'unknown';
     }
 
-    return Inertia::render('Welcome',[
+    return Inertia::render('Welcome', [
         'centralDomain' => $centralDomain,
     ]);
+});
+
+Route::get('/create-tenant-local', function () {
+    $tenant = Tenant::create([
+                                 'id' => (string)Str::uuid(),
+                                 'data' => [
+                                     'db_name' => 'tenant_1'
+                                 ]
+                             ]);
+
+    // Assign 'localhost' as the tenant domain for local testing
+    $tenant->domains()->create([
+                                   'domain' => 'localhost'
+                               ]);
+
+    // Initialize the tenant and run migrations
+    tenancy()->initialize($tenant);
+    Artisan::call('tenants:migrate');
+
+    return response()->json(['message' => 'Tenant created with localhost as domain!']);
+});
+
+Route::post('/create-tenant', function () {
+    $tenantId = (string)Str::uuid(); //
+    $tenant = Tenant::create([
+                                 'id'   => $tenantId,
+                                 'data' => [
+                                     'db_name' => 'tenant_' . $tenantId // Example of setting tenant-specific DB
+                                 ],
+                             ]);
+
+    // Assign a domain like `tenant1.localhost`
+    $tenant->domains()->create([
+                                   'domain' => $tenantId . '.localhost',
+                               ]);
+
+    // Configure tenant-specific database and run migrations
+    tenancy()->initialize($tenant);
+    Artisan::call('tenants:migrate --seed'); // Run tenant migrations
+
+    return response()->json(['message' => 'Tenant created!']);
 });

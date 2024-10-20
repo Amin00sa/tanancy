@@ -5,12 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Payment extends Model
 {
     use HasFactory;
-    use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -19,17 +17,11 @@ class Payment extends Model
      */
     protected $fillable = [
         'numero',
-        'numero_virement',
-        'has_been_virement',
-        'motif_virement',
         'purchase_id',
-        'echeance_date',
-        'taux_tva',
+        'echecance_date',
         'type',
-        'paiement_immediat',
         'status',
         'proof_file',
-        'original_file_name'
     ];
 
     /**
@@ -40,8 +32,7 @@ class Payment extends Model
     protected $casts = [
         'id' => 'integer',
         'purchase_id' => 'integer',
-        'taux_tva' => 'integer',
-        'echeance_date' => 'date',
+        'echecance_date' => 'date',
     ];
 
     public function purchase(): BelongsTo

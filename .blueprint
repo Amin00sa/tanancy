@@ -5,12 +5,12 @@ created:
     - database/factories/PurchaseFactory.php
     - database/factories/ProductFactory.php
     - database/factories/PaymentFactory.php
-    - database/migrations/2023_10_23_225729_create_banks_table.php
-    - database/migrations/2023_10_23_225730_create_suppliers_table.php
-    - database/migrations/2023_10_23_225731_create_marches_table.php
-    - database/migrations/2023_10_23_225732_create_purchases_table.php
-    - database/migrations/2023_10_23_225733_create_products_table.php
-    - database/migrations/2023_10_23_225734_create_payments_table.php
+    - database/migrations/2024_10_20_100018_create_banks_table.php
+    - database/migrations/2024_10_20_100019_create_suppliers_table.php
+    - database/migrations/2024_10_20_100020_create_marches_table.php
+    - database/migrations/2024_10_20_100021_create_purchases_table.php
+    - database/migrations/2024_10_20_100022_create_products_table.php
+    - database/migrations/2024_10_20_100023_create_payments_table.php
     - app/Models/Bank.php
     - app/Models/Supplier.php
     - app/Models/Marche.php

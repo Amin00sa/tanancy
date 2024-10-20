@@ -7,12 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Purchase extends Model
 {
     use HasFactory;
-    use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -20,11 +18,9 @@ class Purchase extends Model
      * @var array
      */
     protected $fillable = [
-        'numero',
         'bank_id',
         'supplier_id',
         'marche_id',
-        'date',
         'total',
     ];
 
@@ -37,7 +33,6 @@ class Purchase extends Model
         'id' => 'integer',
         'bank_id' => 'integer',
         'supplier_id' => 'integer',
-        'date' => 'date:Y-m-d',
         'marche_id' => 'integer',
         'total' => 'decimal:2',
     ];
@@ -64,6 +59,6 @@ class Purchase extends Model
 
     public function marche(): BelongsTo
     {
-        return $this->belongsTo(Marche::class);
+        return $this->belongsTo(March::class);
     }
 }

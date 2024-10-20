@@ -19,7 +19,6 @@ class Product extends Model
         'purchase_id',
         'designation',
         'quantity',
-        'unity',
         'priceperunity',
         'subtotal',
     ];

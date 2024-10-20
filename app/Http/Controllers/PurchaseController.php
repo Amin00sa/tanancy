@@ -119,12 +119,9 @@ class PurchaseController extends Controller
     {
         $data = $request->validated();
         $year = Carbon::now()->format('Y');
-        $countpurchases = Purchase::whereBetween('created_at', [
-            Carbon::now()->startOfYear(),
-            Carbon::now()->endOfYear(),
-        ])->withTrashed()->count();
+        $countpurchases = 2;
         $purchase = Purchase::create([
-            'numero' => str_pad($countpurchases+1, 4, '0', STR_PAD_LEFT) .'/'. $year,
+            'numero' => 1,
             'bank_id' => $data['bank_id'],
             'supplier_id' => $data['supplier_id'],
             'date' => Carbon::parse($data['date'])->format('Y-m-d'),
@@ -133,10 +130,10 @@ class PurchaseController extends Controller
         ]);
         foreach($data['products'] as $product){
             $product = Product::Create([
-                'purchase_id' => $purchase->id,
+                'purchase_id' => "1",
                 'designation' => $product['designation'],
                 'quantity' => $product['quantity'],
-                'unity' => $product['unity'],
+                'unity' => "1",
                 'priceperunity' => $product['priceperunity'],
                 'subtotal' => round($product['quantity']*$product['priceperunity'],2),
             ]);

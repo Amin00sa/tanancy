@@ -28,20 +28,14 @@ class Marche extends Model
      *
      * @var array
      */
-
-    
     protected $casts = [
         'id' => 'integer',
-        'date_service' => 'date:Y-m-d'  
+        'montant' => 'decimal:2',
+        'date_service' => 'date',
     ];
 
     public function purchases(): HasMany
     {
         return $this->hasMany(Purchase::class);
-    }
-
-    public function ventes(): HasMany
-    {
-        return $this->hasMany(Vente::class);
     }
 }
